@@ -1,54 +1,45 @@
-# Security Log Analyzer🛡️
+# Security Log Analyzer
 
-## Overview
-A sophisticated Python-based log analysis tool designed for cybersecurity professionals to detect, analyze, and visualize potential security threats from web server logs.
+A Python command-line project for parsing web-server logs, summarising access patterns, identifying suspicious activity, calculating heuristic threat scores, and producing CSV, JSON, and interactive HTML reports.
 
-## Features
-- Detailed IP request analysis
-- Suspicious activity detection
-- Endpoint access tracking
-- Threat score calculation
-- Geolocation insights
-- Interactive visualizations
+## Implemented features
 
-## Prerequisites
-- Python 3.8+
-- Required libraries:
-  ```
-  pip install requests plotly numpy scipy
-  ```
+- Parses the included combined-format sample log
+- Counts requests by IP address and endpoint
+- Detects repeated failed-login activity
+- Applies Isolation Forest anomaly detection to request patterns
+- Calculates configurable heuristic threat scores
+- Retrieves optional IP geolocation through `ipapi.co`
+- Writes structured CSV and JSON reports
+- Generates Plotly request-distribution and endpoint heatmap visualisations
 
-## Installation
-1. Clone the repository
-   ```bash
-   git clone https://github.com/ubaidullah-ctrl/Security-Log-Analyzer.git
-   cd vrv-security-log-analyzer
-   ```
+The anomaly and prediction outputs are exploratory heuristics. They are not a substitute for a security information and event management platform or a professionally calibrated detection model.
 
-2. Install dependencies
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Run locally
 
-## Usage
-```bash
-python3 main.py 
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python main.py
 ```
 
-## Output Files
-- `log_analysis_results.csv`: Detailed log analysis
-- `comprehensive_log_report.json`: Advanced threat insights
-- `ip_requests_visualization.html`: Request distribution chart
-- `endpoint_access_heatmap.html`: Endpoint access visualization
+Generated files are written to the repository directory. Geolocation requires internet access and depends on the availability and terms of the external `ipapi.co` service.
 
-## Project Structure
-- `main.py`: Primary execution script
-- `loganalyzer.py`: Log parsing and basic analysis
-- `threat_detection.py`: Advanced threat detection algorithms
-- `visualization.py`: Data visualization components
-- `utils.py`: Utility functions for additional processing
+## Project structure
 
-## Submission Guidelines
-- Ensure all dependencies are installed
-- Provide a sample log file
-- Run the script and review generated reports
+```text
+main.py                Orchestrates analysis and reporting
+loganalyzer.py         Log parsing and aggregate analysis
+threat_detection.py    Anomaly detection and threat scoring
+visualization.py       Plotly HTML reports
+utils.py               Geolocation and JSON report helpers
+sample.log             Demonstration input
+```
+
+## Current limitations
+
+- Input parsing targets one log structure and needs hardening for arbitrary formats.
+- Thresholds and threat weights are demonstration values, not production-calibrated rules.
+- Network requests do not currently include retry, timeout, or rate-limit handling.
+- The project does not yet include automated tests or a streaming ingestion path.
